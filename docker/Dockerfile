@@ -51,6 +51,23 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     # Required for node-pty at runtime
     build-essential \
+    # Essential development tools for mistral-vibe
+    grep \
+    findutils \
+    vim \
+    less \
+    jq \
+    unzip \
+    zip \
+    tar \
+    gzip \
+    bzip2 \
+    wget \
+    net-tools \
+    iputils-ping \
+    dnsutils \
+    lsof \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv for faster Python package installation
