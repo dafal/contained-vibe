@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  contained-vibe:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      # Required: Mistral API key
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+
+      # Optional: Server configuration
+      - PORT=3000
+      - WORKSPACE_DIR=/workspace
+      - NODE_ENV=production
+
+      # Set home for vibe config
+      - HOME=/root
+
+    volumes:
+      # Mount local workspace directory for vibe to operate in
+      - ./workspace:/workspace
+
+      # Persist vibe configuration across container restarts
+      # This stores API keys, settings, and conversation history
+      - vibe-config:/root/.vibe
+
+    restart: unless-stopped
+
+    # Optional: Resource limits
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2'
+    #       memory: 2G
+    #     reservations:
+    #       memory: 512M
+
+volumes:
+  # Named volume for vibe configuration
+  vibe-config:
+    driver: local

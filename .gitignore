@@ -1,0 +1,28 @@
+# Environment files
+.env
+.env.local
+
+# Dependencies
+node_modules/
+*.log
+
+# Build outputs
+dist/
+build/
+
+# Workspace (user projects)
+workspace/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+.dockerignore
