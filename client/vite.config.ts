@@ -13,6 +13,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, // Disable sourcemaps to reduce build complexity
+    minify: false, // Disable minification to avoid esbuild Go runtime bugs in Docker buildx
+    cssMinify: false, // Disable CSS minification to avoid esbuild issues
   },
 });

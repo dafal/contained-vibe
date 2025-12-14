@@ -42,8 +42,9 @@ A containerized web-based terminal for running [mistral-vibe](https://github.com
 
 ### Installation
 
-1. **Clone or create the project:**
+1. **Clone the repository:**
    ```bash
+   git clone https://github.com/dafal/contained-vibe.git
    cd contained-vibe
    ```
 
@@ -62,10 +63,12 @@ A containerized web-based terminal for running [mistral-vibe](https://github.com
    mkdir -p workspace
    ```
 
-5. **Build and start the container:**
+5. **Start the container:**
    ```bash
-   docker-compose up --build
+   docker-compose up -d
    ```
+
+   The pre-built multi-arch image (`dafal/contained-vibe:latest`) will be automatically pulled from Docker Hub, supporting both AMD64 and ARM64 platforms.
 
 6. **Open your browser:**
    ```
@@ -106,12 +109,13 @@ docker-compose logs -f
 # Stop the container
 docker-compose down
 
-# Rebuild after code changes
-docker-compose up --build
+# Pull latest image and restart
+docker-compose pull
+docker-compose up -d
 
 # Clean restart (removes volumes)
 docker-compose down -v
-docker-compose up --build
+docker-compose up -d
 ```
 
 ### Accessing Your Files
@@ -146,6 +150,33 @@ The docker-compose configuration creates two volumes:
 2. **`vibe-config:/root/.vibe`** - Named volume for vibe configuration (API keys, history, settings)
 
 The vibe config volume persists across container restarts, so you won't need to reconfigure vibe each time.
+
+## Building from Source
+
+If you want to customize the Docker image or build it yourself:
+
+1. **Update docker-compose.yml to build locally:**
+   ```yaml
+   services:
+     contained-vibe:
+       build:
+         context: .
+         dockerfile: docker/Dockerfile
+       # image: dafal/contained-vibe:latest  # Comment this out
+   ```
+
+2. **Build the image:**
+   ```bash
+   docker-compose build
+   ```
+
+3. **Build multi-arch image (requires Docker Buildx):**
+   ```bash
+   docker buildx build --platform linux/amd64,linux/arm64 \
+     -t your-username/contained-vibe:latest \
+     --push \
+     -f docker/Dockerfile .
+   ```
 
 ## Development
 

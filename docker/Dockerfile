@@ -31,6 +31,9 @@ COPY client/package*.json ./
 RUN npm install
 
 COPY client/ ./
+# Workaround for esbuild Go runtime bug in Docker buildx
+# Set ESBUILD_WORKER_THREADS=1 to avoid parallel processing issues
+ENV ESBUILD_WORKER_THREADS=1
 RUN npm run build
 
 # =============================================================================
